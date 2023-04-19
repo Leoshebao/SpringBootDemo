@@ -8,7 +8,7 @@ import javax.servlet.annotation.WebFilter;
 import java.io.IOException;
 
 import java.util.logging.LogRecord;
-
+@WebFilter(value = {"/antionLogin","/antionMyFilter"})
 @Component
 public class MyFilter implements Filter {
     @Override

@@ -5,7 +5,7 @@ import org.springframework.stereotype.Component;
 import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;
 import javax.servlet.annotation.WebListener;
-
+@WebListener
 @Component
 public class MyListener implements ServletContextListener {
 //    启动的时候出现监听器
