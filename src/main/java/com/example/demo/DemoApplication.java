@@ -10,6 +10,6 @@ public class DemoApplication {
 
     public static void main(String[] args) {
         SpringApplication.run(DemoApplication.class, args);
-        System.out.println("Spring boot启动成功");
+        System.out.println("========================================================Spring boot启动成功========================================================");
     }
 }
