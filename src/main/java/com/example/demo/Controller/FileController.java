@@ -1,5 +1,6 @@
 package com.example.demo.Controller;
 
+import org.apache.commons.io.FileUtils;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -15,26 +16,6 @@ import java.util.UUID;
 
 @Controller
 public class FileController {
-//    @GetMapping("/toUpload")
-//    public String toUpload() {
-//        return "upload";
-//    }
-//    @RequestMapping(value = "/uploadFile", method = RequestMethod.POST)
-//    public String uploadFile(@RequestParam("filename") MultipartFile file) {
-//        String filename = file.getOriginalFilename();
-//        String dirPath = "C:/environment/TestFile";
-//        File filePath = new File(dirPath);
-//        if (!filePath.exists()) {
-//            filePath.mkdir();
-//        }
-//        try {
-//            file.transferTo(new File(dirPath + filename));
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//        }
-//        return filename;
-//    }
-
     // 向文件上传页面跳转
     @GetMapping("/toUpload")
     public String toUpload(){
@@ -51,7 +32,7 @@ public class FileController {
             // 重新生成文件名（根据具体情况生成对应文件名）
             fileName = UUID.randomUUID()+"_"+fileName;
             // 指定上传文件本地存储目录，不存在需要提前创建
-            String dirPath = "C:/environment/TestFile";
+            String dirPath = "E:/Project/unpload_file";
             File filePath = new File(dirPath);
             if(!filePath.exists()){
                 filePath.mkdirs();
@@ -67,5 +48,26 @@ public class FileController {
         }
         // 携带上传状态信息回调到文件上传页面
         return "upload";
+    }
+//    文件下载
+    @GetMapping("/toDownload")
+    public String toDownload(){
+        return "download";
+    }
+//    处理下载业务
+    @GetMapping("/download")
+    public ResponseEntity<byte[]> fileDownload(String filename){
+//        设定了文件下载的存储路径(提供下载的文件服务器存放路径)
+//        文件名要尽可能是英文，不然容出现http消息头无效（导致无法拉起浏览器的下载弹窗）
+        String dirPath = "E:/Project/download_file";
+        File file = new File(dirPath + File.separator + filename);
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentDispositionFormData("attachment",filename);
+        headers.setContentType(MediaType.APPLICATION_OCTET_STREAM);
+        try {return new ResponseEntity<>(FileUtils.readFileToByteArray(file),
+                headers, HttpStatus.OK);}
+        catch (Exception e) {e.printStackTrace();
+            return new ResponseEntity<byte[]>(e.getMessage().getBytes(),
+                    HttpStatus.EXPECTATION_FAILED);}
     }
 }
