@@ -78,6 +78,12 @@
             <artifactId>commons-io</artifactId>
             <version>2.6</version>
         </dependency>
+<!--        声明使用外部tomcat服务-->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-tomcat</artifactId>
+            <scope>provided</scope>
+        </dependency>
     </dependencies>
 <!--导入jar包打包插件-->
     <build>
